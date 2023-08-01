@@ -1,7 +1,9 @@
-function cartsTable(pool) {
-    pool.run(
-      `CREATE TABLE IF NOT EXISTS carts(id INTEGER PRIMARY KEY, account_number INTEGER NOT NULL, sum INTEGER NOT NULL)`
-    );
-  };
+const {db} = require('../index');
 
-  module.exports = { cartsTable };
+function cartsTable() {
+  const sql = `CREATE TABLE db.carts(id INTEGER AUTO_INCREMENT PRIMARY KEY, user_id INTEGER NOT NULL, cart_number INTEGER NOT NULL, sum INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id))`
+  db.query(sql);
+};
+
+module.exports = { cartsTable };

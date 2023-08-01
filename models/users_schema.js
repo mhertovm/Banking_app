@@ -1,8 +1,8 @@
-function usersTable(pool) {
-    pool.run(
-      `CREATE TABLE IF NOT EXISTS users(id INTEGER PRIMARY KEY, cart_id INTEGER NOT NULL, email STRING NOT NULL, password STRING NOT NULL,
-        FOREIGN KEY (cart_id) REFERENCES carts(id))`
-    );
-  };
+const {db} = require('../index');
 
-  module.exports = { usersTable };
+function usersTable() {
+  const sql = `CREATE TABLE db.users(id INTEGER AUTO_INCREMENT PRIMARY KEY, name TINYTEXT NOT NULL, surname TINYTEXT NOT NULL, email TINYTEXT NOT NULL, password TINYTEXT NOT NULL)`
+  db.query(sql)
+};
+
+module.exports = { usersTable };
