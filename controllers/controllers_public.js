@@ -51,7 +51,7 @@ function login (req, res){
             const validPassword = await bcrypt.compare(password, data[0].password);
             if (email === data[0].email && validPassword){
                 const token = generateAccessToken(data[0].email);
-                res.json({response: "login", jwt: token});
+                res.json({response: "login", jwt: token, user_id: data[0].id});
             } else {
                 res.json({response: "invalid password"})
             }

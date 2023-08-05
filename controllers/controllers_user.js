@@ -93,4 +93,32 @@ function transfer(req, res){
     }
 };
 
-module.exports = {plusSum, transfer, user, carts}
+function transfers(req, res){
+    try{
+        const {user_id} = req.body;
+        db.query(`SELECT * FROM db.transfers WHERE cartMinus_id = ${user_id}`, function(err, data){
+            if(err){
+                return res.json({response: "transfers not found"});
+            };
+            res.json(data)
+        })
+    } catch(err){
+        console.log(err)
+    }
+};
+
+function addCart(req, res){
+    try{
+        const {user_id} = req.body;
+        db.query(`INSERT INTO db.carts (user_id, cart_number, sum) VALUES ('${user_id}', '1234${user_id+Math.random()}', '0')`, function(err){
+            if (err){
+                return res.json({response: "failed to cart add"})
+            };
+            res.json({response: "cart added"})
+        })
+    } catch(err){
+        console.log(err)
+    }
+}
+
+module.exports = {plusSum, transfer, user, carts, transfers, addCart}
