@@ -1,0 +1,4 @@
+[2023-08-09T16:45:32.700] [INFO] queryLogs - DB query SELECT * FROM db.users WHERE email = 'user'
+[2023-08-09T16:57:25.419] [INFO] queryLogs - DB query SELECT * FROM db.users WHERE email = 'user'
+[2023-08-09T16:57:25.618] [INFO] queryLogs - DB query SELECT * FROM db.cards WHERE user_id = 1
+[2023-08-09T16:57:25.853] [INFO] queryLogs - DB query SELECT * FROM db.cards WHERE user_id = 1

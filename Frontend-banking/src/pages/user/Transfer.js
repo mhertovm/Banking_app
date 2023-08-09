@@ -33,28 +33,30 @@ const Transfer = () => {
     });
     }, [user_id, token])
 
-    function onFinish(values){
-      try{
-        fetch('http://localhost:4000/transfer', {
-        method: 'POST',
-        body: JSON.stringify({
-          minus_cart_number: values.selectCart[0],
-          plus_cart_number: values.plusCartNumber,
-          sum : values.sum
-        }),
-        headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-        "Authorization": token,
-        },
-        })
-        .then((res)=> res.json())
-        .then((data)=>{
-            setResponse(data.response)
-        });
-   } catch(err){
-        console.log(err)
-   }
+  function onFinish(values){
+    for(let i = 0; i<=100; i++){
+    try{
+      fetch('http://localhost:4000/transfer', {
+      method: 'POST',
+      body: JSON.stringify({
+        minus_cart_number: values.selectCart[0],
+        plus_cart_number: values.plusCartNumber,
+        sum : values.sum +i
+      }),
+      headers: {
+      'Content-type': 'application/json; charset=UTF-8',
+      "Authorization": token,
+      },
+      })
+      .then((res)=> res.json())
+      .then((data)=>{
+          setResponse(data.response)
+      });
+    } catch(err){
+      console.log(err)
     }
+  };
+  }
     
   return (
     <>

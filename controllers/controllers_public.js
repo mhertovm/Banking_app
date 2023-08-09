@@ -1,48 +1,72 @@
 require('dotenv').config();
-const bcrypt = require('bcrypt');
 const mysql = require('mysql2');
-const { generateAccessToken } = require("../generateAccessToken/generateAccessToken");
+const bcrypt = require('bcrypt');
+const log4js = require("log4js");
 const db = mysql.createConnection({
     host: process.env.HOST_DB,
     user: process.env.USER_DB,
     database: process.env.DATABASE_NAME,
     password: process.env.PASSWORD_DB,
 });
+log4js.configure({
+    appenders: { 
+        APIlogs: { type: "file", filename: "API.log" },
+        queryLogs: { type: "file", filename: "Query.log" },
+        errorLogs: { type: "file", filename: "Error.log" }
+    },
+    categories: {
+        default: { appenders: ["APIlogs"], level: "info" }, 
+        queryLogs : { appenders: ["queryLogs"], level: "info" },
+        errorLogs : { appenders: ["errorLogs"], level: "error"}
+    },
+});
+const loggerAPI = log4js.getLogger("APIlogs");
+const loggerQuery = log4js.getLogger("queryLogs");
+const loggerError = log4js.getLogger("errorLogs");
+const { generateAccessToken } = require("../generateAccessToken/generateAccessToken");
 
 async function register(req, res){
     try{
+        loggerAPI.info(`request "${req.url}" method "${req.method}"`);
         const {name,surname,email,password} = req.body;
         const salt = await bcrypt.genSalt(10);
         const hashed_password = await bcrypt.hash(password, salt);
-        db.query(`SELECT * FROM db.users WHERE email = '${email}'`, function(err, data){
+        const query = db.query(`SELECT * FROM db.users WHERE email = '${email}'`,
+        function(err, data){
             if(err){
                 return res.json({response: "failed to register"})
             } else if(data.length === 0){
-                db.query(`INSERT INTO db.users (name, surname, email, password) VALUES ('${name}', '${surname}', '${email}', '${hashed_password}')`, function(err, data){
+                const query = db.query(`INSERT INTO db.users (name, surname, email, password) VALUES ('${name}', '${surname}', '${email}', '${hashed_password}')`,
+                function(err, data){
                     if(err){
                         return res.json({response: "failed to register"})
                     };
-                    db.query(`INSERT INTO db.carts (user_id, cart_number, sum) VALUES ('${data.insertId}', '1234${data.insertId}', '0')`, function(err){
+                    const query = db.query(`INSERT INTO db.cards (user_id, cardNumber, cardNume, sum, dataCreated) VALUES ('${data.insertId}', '1234${data.insertId}', 'id bank default', '0', now())`,
+                    function(err){
                         if (err){
                             return res.json({response: "failed to cart register"})
                         };
                         res.json({response: "registered"})
                     })
+                    loggerQuery.info(`DB query ${query.sql}`);
                 })
+                loggerQuery.info(`DB query ${query.sql}`);
             } else {
                 res.json({response: "email is already registered"})
             }
         })
-        
+        loggerQuery.info(`DB query ${query.sql}`);
     } catch (err){
-        console.log(err)
+        loggerError.info(`catch error ${err}`)
     }
 };
 
 function login (req, res){
     try{
+        loggerAPI.info(`request "${req.url}" method "${req.method}"`);
         const { email, password } = req.body;
-        db.query(`SELECT * FROM db.users WHERE email = '${email}'`, async function(err, data){
+        const query = db.query(`SELECT * FROM db.users WHERE email = ?`, [email],
+        async function(err, data){
             if(err){
                 return res.sendStatus(404);
             } else if(data.length === 0){
@@ -56,8 +80,9 @@ function login (req, res){
                 res.json({response: "invalid password"})
             }
         })
+        loggerQuery.info(`DB query ${query.sql}`)
     } catch (err){
-        console.log(err)
+        loggerError.info(`catch error ${err}`)
     }
 };
 

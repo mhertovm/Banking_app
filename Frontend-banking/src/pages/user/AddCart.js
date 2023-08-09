@@ -10,6 +10,7 @@ function AddCart(){
     const user_id = localStorage.getItem("user_id");
 
     const onFinish = () =>{
+  //  for(let i = 0; i<=100; i++){
         try{
             fetch('http://localhost:4000/addcart', {
             method: 'POST',
@@ -28,6 +29,7 @@ function AddCart(){
        } catch(err){
             console.log(err)
        }
+      // };
     }
 
   return (

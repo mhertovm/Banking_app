@@ -24,7 +24,8 @@ function Login(){
         if(data.response === "login"){
             localStorage.setItem('token', data.jwt);
             localStorage.setItem('user_id', data.user_id);
-            navigate("/banking")
+            navigate("/banking");
+            window.location.reload()
         } else {
             setErr(data.response)
         }

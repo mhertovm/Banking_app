@@ -7,14 +7,15 @@ function Register(){
     const [messageApi, contextHolder] = message.useMessage();
 
     const onFinish = async (values) => {
+      // for(let i = 0; i<=100; i++){
         try {
             const response = await fetch('http://localhost:4000/register', {
               method: 'POST',
               body: JSON.stringify({
                 name: values.name,
                 surname: values.surname,
-                email: values.email,
-                password: values.password,
+                email: values.email ,
+                password: values.password ,
               }),
               headers: {
                 'Content-type': 'application/json; charset=UTF-8',
@@ -33,6 +34,7 @@ function Register(){
           } catch (err) {
             console.log(err);
           }
+        // }
         };
 
     return (

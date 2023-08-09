@@ -4,13 +4,13 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const router = require('./router/router');
-const {cartsTable} = require('./models/carts_schema');
+const {cardsTable} = require('./models/cards_schema');
 const {usersTable} = require('./models/users_schema');
 const {transfersTable} = require('./models/transfers_schema');
 const {db} = require('./index');
 
 usersTable(db);
-cartsTable(db);
+cardsTable(db);
 transfersTable(db);
 
 app.use(cors());

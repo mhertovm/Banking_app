@@ -1,0 +1,6 @@
+[2023-08-09T16:45:32.698] [INFO] APIlogs - request "/login" method "POST"
+[2023-08-09T16:45:32.905] [INFO] APIlogs - request "/carts" method "POST"
+[2023-08-09T16:45:33.102] [INFO] APIlogs - request "/carts" method "POST"
+[2023-08-09T16:57:25.418] [INFO] APIlogs - request "/login" method "POST"
+[2023-08-09T16:57:25.617] [INFO] APIlogs - request "/carts" method "POST"
+[2023-08-09T16:57:25.852] [INFO] APIlogs - request "/carts" method "POST"
