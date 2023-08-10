@@ -34,17 +34,17 @@ async function register(req, res){
         const query = db.query(`SELECT * FROM db.users WHERE email = '${email}'`,
         function(err, data){
             if(err){
-                return res.json({response: "failed to register"})
+                loggerError.error(`query error "${err.sql}"`)
             } else if(data.length === 0){
                 const query = db.query(`INSERT INTO db.users (name, surname, email, password) VALUES ('${name}', '${surname}', '${email}', '${hashed_password}')`,
                 function(err, data){
                     if(err){
-                        return res.json({response: "failed to register"})
+                        loggerError.error(`query error "${err.sql}"`)
                     };
                     const query = db.query(`INSERT INTO db.cards (user_id, cardNumber, cardNume, sum, dataCreated) VALUES ('${data.insertId}', '1234${data.insertId}', 'id bank default', '0', now())`,
                     function(err){
                         if (err){
-                            return res.json({response: "failed to cart register"})
+                            loggerError.error(`query error "${err.sql}"`)
                         };
                         res.json({response: "registered"})
                     })
