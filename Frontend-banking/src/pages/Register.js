@@ -7,7 +7,6 @@ function Register(){
     const [messageApi, contextHolder] = message.useMessage();
 
     const onFinish = async (values) => {
-      // for(let i = 0; i<=100; i++){
         try {
             const response = await fetch('http://localhost:4000/register', {
               method: 'POST',
@@ -34,7 +33,6 @@ function Register(){
           } catch (err) {
             console.log(err);
           }
-        // }
         };
 
     return (

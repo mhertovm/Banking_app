@@ -162,7 +162,7 @@ function addCard(req, res){
     loggerAPI.info(`request "${req.url}" method "${req.method}"`);
     try{
         const {user_id, cardName} = req.body;
-        const query = db.query(`INSERT INTO db.cards (user_id, cardName, cardNumber, sum, dateCreated) VALUES ('${user_id}', '${cardName}', '1234${user_id + Math.random()}', '10000', now())`,
+        const query = db.query(`INSERT INTO db.cards (user_id, cardName, cardNumber, sum, dateCreated) VALUES ('${user_id}', '${cardName}', '1234${user_id + Math.random()}', '0', now())`,
         function(err){
             if (err){
                 loggerError.error(`query error "${err.sql}"`)

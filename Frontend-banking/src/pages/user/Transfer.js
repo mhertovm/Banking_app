@@ -34,7 +34,6 @@ const Transfer = () => {
     }, [user_id, token])
 
   function onFinish(values){
-    for(let i = 0; i<=100; i++){
     try{
       fetch('http://localhost:4000/transfer', {
       method: 'POST',
@@ -55,7 +54,6 @@ const Transfer = () => {
     } catch(err){
       console.log(err)
     }
-  };
   }
     
   return (
