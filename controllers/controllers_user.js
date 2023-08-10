@@ -34,9 +34,9 @@ function user(req, res){
             }
             res.json(data)
         })
-        loggerQuery.info(`DB query ${query.sql}`);
+        loggerQuery.info(`DB query "${query.sql}"`);
     } catch(err){
-        loggerError.info(`catch error ${err}`)
+        loggerError.error(`catch error "${err}"`)
     }
 };
 
@@ -51,9 +51,9 @@ function cards(req, res){
             }
             res.json(data)
         })
-        loggerQuery.info(`DB query ${query.sql}`);
+        loggerQuery.info(`DB query "${query.sql}"`);
     } catch(err){
-        loggerError.info(`catch error ${err}`)
+        loggerError.error(`catch error "${err}"`)
     }
 };
 
@@ -74,9 +74,9 @@ function plusSum(req, res){
                 res.json({response: "sum added"});
             })
         })
-        loggerQuery.info(`DB query ${query.sql}`);
+        loggerQuery.info(`DB query "${query.sql}"`);
     } catch(err){
-        loggerError.info(`catch error ${err}`)
+        loggerError.error(`catch error "${err}"`)
     }
 };
 
@@ -89,42 +89,55 @@ function transfer(req, res){
             if(err){
                 return res.json({response: "card not found"});
             } else if(+sourceCard[0].sum >= +sum){
-                const query = db.query(`UPDATE db.cards SET sum = ${+sourceCard[0].sum - +sum} WHERE id = ${sourceCard[0].id}`,
-                function(err){
+                const queryTransaction = db.beginTransaction(function(err){
                     if(err){
-                        return console.log(err)
+                        console.log(err)
                     }
-                    const query = db.query(`SELECT * FROM db.cards WHERE cardNumber = '${destinationCard}'`,
-                    function(err, destinationCard){
+                    const query = db.query(`UPDATE db.cards SET sum = ${+sourceCard[0].sum - +sum} WHERE id = ${sourceCard[0].id}`,
+                    function(err){
                         if(err){
                             return console.log(err)
-                        };
-                        const query = db.query(`UPDATE db.cards SET sum = ${+destinationCard[0].sum + +sum} WHERE id = ${destinationCard[0].id}`,
-                        function(err){
+                        }
+                        const query = db.query(`SELECT * FROM db.cards WHERE cardNumber = '${destinationCard}'`,
+                        function(err, destinationCard){
                             if(err){
                                 return console.log(err)
-                            }
-                            const query = db.query(`INSERT INTO db.transfers (sourceCard, destinationCard, sumTransfer, dataTransfer) VALUES ('${sourceCard[0].id}', '${destinationCard[0].id}', '${sum}', now())`,
+                            };
+                            const query = db.query(`UPDATE db.cards SET sum = ${+destinationCard[0].sum + +sum} WHERE id = ${destinationCard[0].id}`,
                             function(err){
                                 if(err){
                                     return console.log(err)
                                 }
-                            })
-                            loggerQuery.info(`DB query ${query.sql}`);
-                        });
-                        loggerQuery.info(`DB query ${query.sql}`);
-                        return res.json({response: "transfer has occurred"})
+                                const query = db.query(`INSERT INTO db.transfers (sourceCard, destinationCard, sumTransfer, dateTransfer) VALUES ('${sourceCard[0].id}', '${destinationCard[0].id}', '${sum}', now())`,
+                                function(err){
+                                    if(err){
+                                        return console.log(err)
+                                    }
+                                    const queryCommit = db.commit(function(err){
+                                        if(err){
+                                            console.log(err)
+                                        }
+                                        return res.json({response: "transfer has occurred"})
+                                    })
+                                    loggerQuery.info(`DB query begin transaction "${queryCommit.sql}"`);
+                                })
+                                loggerQuery.info(`DB query "${query.sql}"`);
+                            });
+                            loggerQuery.info(`DB query "${query.sql}"`);
+                        })
+                        loggerQuery.info(`DB query "${query.sql}"`);
                     })
-                    loggerQuery.info(`DB query ${query.sql}`);
+                    loggerQuery.info(`DB query "${query.sql}"`);
                 })
-                loggerQuery.info(`DB query ${query.sql}`);
+                loggerQuery.info(`DB query begin transaction "${queryTransaction.sql}"`);
+                return res.json({response: "transfer to failed"})
             } else {
-                res.json({response: "not enough money"})
+                return res.json({response: "not enough money"})
             };
         })
-        loggerQuery.info(`DB query ${query.sql}`);
+        loggerQuery.info(`DB query "${query.sql}"`);
     } catch(err){
-        loggerError.info(`catch error ${err}`)
+        loggerError.error(`catch error "${err}"`)
     }
 };
 
@@ -139,26 +152,26 @@ function transfers(req, res){
             };
             res.json(data)
         })
-        loggerQuery.info(`DB query ${query.sql}`);
+        loggerQuery.info(`DB query "${query.sql}"`);
     } catch(err){
-        loggerError.info(`catch error ${err}`)
+        loggerError.error(`catch error "${err}"`)
     }
 };
 
 function addCard(req, res){
     loggerAPI.info(`request "${req.url}" method "${req.method}"`);
     try{
-        const {user_id} = req.body;
-        const query = db.query(`INSERT INTO db.cards (user_id, cardNume, cardNumber, sum, dateCreated) VALUES ('${user_id}', '1234${user_id+Math.random()}', '0', now())`,
+        const {user_id, cardName} = req.body;
+        const query = db.query(`INSERT INTO db.cards (user_id, cardName, cardNumber, sum, dateCreated) VALUES ('${user_id}', '${cardName}', '1234${user_id + Math.random()}', '10000', now())`,
         function(err){
             if (err){
                 return res.json({response: "failed to cart add"})
             };
             res.json({response: "cart added"})
         })
-        loggerQuery.info(`DB query ${query.sql}`);
+        loggerQuery.info(`DB query "${query.sql}"`);
     } catch(err){
-        loggerError.info(`catch error ${err}`)
+        loggerError.error(`catch error "${err}"`)
     }
 }
 

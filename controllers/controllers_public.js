@@ -48,16 +48,16 @@ async function register(req, res){
                         };
                         res.json({response: "registered"})
                     })
-                    loggerQuery.info(`DB query ${query.sql}`);
+                    loggerQuery.info(`DB query "${query.sql}"`);
                 })
-                loggerQuery.info(`DB query ${query.sql}`);
+                loggerQuery.info(`DB query "${query.sql}"`);
             } else {
                 res.json({response: "email is already registered"})
             }
         })
-        loggerQuery.info(`DB query ${query.sql}`);
+        loggerQuery.info(`DB query "${query.sql}"`);
     } catch (err){
-        loggerError.info(`catch error ${err}`)
+        loggerError.error(`catch error "${err}"`)
     }
 };
 
@@ -80,9 +80,9 @@ function login (req, res){
                 res.json({response: "invalid password"})
             }
         })
-        loggerQuery.info(`DB query ${query.sql}`)
+        loggerQuery.info(`DB query "${query.sql}"`)
     } catch (err){
-        loggerError.info(`catch error ${err}`)
+        loggerError.error(`catch error "${err}"`)
     }
 };
 

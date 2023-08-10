@@ -2,3 +2,42 @@
 [2023-08-09T16:57:25.419] [INFO] queryLogs - DB query SELECT * FROM db.users WHERE email = 'user'
 [2023-08-09T16:57:25.618] [INFO] queryLogs - DB query SELECT * FROM db.cards WHERE user_id = 1
 [2023-08-09T16:57:25.853] [INFO] queryLogs - DB query SELECT * FROM db.cards WHERE user_id = 1
+[2023-08-10T20:32:08.279] [INFO] queryLogs - DB query INSERT INTO db.cards (user_id, cardNume, cardNumber, sum, dateCreated) VALUES ('1', '123410.8205862272809936', '0', now())
+[2023-08-10T20:32:14.432] [INFO] queryLogs - DB query INSERT INTO db.cards (user_id, cardNume, cardNumber, sum, dateCreated) VALUES ('1', '123410.2290914102951831', '0', now())
+[2023-08-10T20:34:03.643] [INFO] queryLogs - DB query INSERT INTO db.cards (user_id, cardNume, cardNumber, sum, dateCreated) VALUES ('1', 'id2', '123410.6158500409661054', '0', now())
+[2023-08-10T20:34:06.026] [INFO] queryLogs - DB query INSERT INTO db.cards (user_id, cardNume, cardNumber, sum, dateCreated) VALUES ('1', 'id2', '123410.7557182047317936', '0', now())
+[2023-08-10T20:39:55.676] [INFO] queryLogs - DB query INSERT INTO db.cards (user_id, cardNume, cardNumber, sum, dateCreated) VALUES ('1', 'id2', '12341.7470041034481885', '0', now())
+[2023-08-10T20:39:59.324] [INFO] queryLogs - DB query INSERT INTO db.cards (user_id, cardNume, cardNumber, sum, dateCreated) VALUES ('1', 'id2', '12341.893695224199769', '0', now())
+[2023-08-10T20:40:29.915] [INFO] queryLogs - DB query INSERT INTO db.cards (user_id, cardNume, cardNumber, sum, dateCreated) VALUES ('1', 'id2', '12341.7541376233660921', '0', now())
+[2023-08-10T20:40:30.812] [INFO] queryLogs - DB query INSERT INTO db.cards (user_id, cardNume, cardNumber, sum, dateCreated) VALUES ('1', 'id2', '12341.035572540773838', '0', now())
+[2023-08-10T20:42:34.448] [INFO] queryLogs - DB query INSERT INTO db.cards (user_id, cardName, cardNumber, sum, dateCreated) VALUES ('1', 'id2', '12341.7250501547138513', '0', now())
+[2023-08-10T20:43:01.859] [INFO] queryLogs - DB query INSERT INTO db.cards (user_id, cardName, cardNumber, sum, dateCreated) VALUES ('1', 'id3', '12341.6699740001432677', '0', now())
+[2023-08-10T20:43:39.252] [INFO] queryLogs - DB query INSERT INTO db.cards (user_id, cardName, cardNumber, sum, dateCreated) VALUES ('1', 'id3', '12343', '0', now())
+[2023-08-10T20:45:05.221] [INFO] queryLogs - DB query INSERT INTO db.cards (user_id, cardName, cardNumber, sum, dateCreated) VALUES ('1', 'id3', '12344', '10000', now())
+[2023-08-10T20:47:30.364] [INFO] queryLogs - DB query SELECT * FROM db.cards WHERE cardNumber = '12344'
+[2023-08-10T20:47:30.368] [INFO] queryLogs - DB query begin transaction START TRANSACTION
+[2023-08-10T20:47:30.368] [INFO] queryLogs - DB query UPDATE db.cards SET sum = 9998 WHERE id = 4
+[2023-08-10T20:47:30.369] [INFO] queryLogs - DB query SELECT * FROM db.cards WHERE cardNumber = '12343'
+[2023-08-10T20:47:30.372] [INFO] queryLogs - DB query UPDATE db.cards SET sum = 2 WHERE id = 3
+[2023-08-10T20:47:30.373] [INFO] queryLogs - DB query INSERT INTO db.transfers (sourceCard, destinationCard, sumTransfer, dateTransfer) VALUES ('4', '3', '2', now())
+[2023-08-10T20:47:30.374] [INFO] queryLogs - DB query begin transaction COMMIT
+[2023-08-10T20:48:18.870] [INFO] queryLogs - DB query SELECT * FROM db.cards WHERE cardNumber = '12344'
+[2023-08-10T20:48:18.875] [INFO] queryLogs - DB query begin transaction START TRANSACTION
+[2023-08-10T20:48:18.876] [INFO] queryLogs - DB query UPDATE db.cards SET sum = 9996 WHERE id = 4
+[2023-08-10T20:48:18.879] [INFO] queryLogs - DB query SELECT * FROM db.cards WHERE cardNumber = '12343'
+[2023-08-10T20:48:18.880] [INFO] queryLogs - DB query UPDATE db.cards SET sum = 4 WHERE id = 3
+[2023-08-10T20:48:18.881] [INFO] queryLogs - DB query INSERT INTO db.transf (sourceCard, destinationCard, sumTransfer, dateTransfer) VALUES ('4', '3', '2', now())
+[2023-08-10T20:48:48.376] [INFO] queryLogs - DB query SELECT * FROM db.cards WHERE cardNumber = '12344'
+[2023-08-10T20:48:48.381] [INFO] queryLogs - DB query begin transaction START TRANSACTION
+[2023-08-10T20:48:48.381] [INFO] queryLogs - DB query UPDATE db.cards SET sum = 9996 WHERE id = 4
+[2023-08-10T20:48:48.382] [INFO] queryLogs - DB query SELECT * FROM db.cards WHERE cardNumber = '12343'
+[2023-08-10T20:48:48.385] [INFO] queryLogs - DB query UPDATE db.cards SET sum = 4 WHERE id = 3
+[2023-08-10T20:48:48.386] [INFO] queryLogs - DB query INSERT INTO db.transfers (sourceCard, destinationCard, sumTransfer, dateTransfer) VALUES ('4', '3', '2', now())
+[2023-08-10T20:48:48.387] [INFO] queryLogs - DB query begin transaction COMMIT
+[2023-08-10T20:50:10.459] [INFO] queryLogs - DB query SELECT * FROM db.cards WHERE cardNumber = '12344'
+[2023-08-10T20:50:10.462] [INFO] queryLogs - DB query begin transaction START TRANSACTION
+[2023-08-10T20:50:10.463] [INFO] queryLogs - DB query UPDATE db.cards SET sum = 9994 WHERE id = 4
+[2023-08-10T20:50:10.464] [INFO] queryLogs - DB query SELECT * FROM db.cards WHERE cardNumber = '12343'
+[2023-08-10T20:50:10.465] [INFO] queryLogs - DB query UPDATE db.cards SET sum = 6 WHERE id = 3
+[2023-08-10T20:50:10.466] [INFO] queryLogs - DB query INSERT INTO db.transfers (sourceCard, destinationCard, sumTransfer, dateTransfer) VALUES ('4', '3', '2', now())
+[2023-08-10T20:50:10.466] [INFO] queryLogs - DB query begin transaction COMMIT
