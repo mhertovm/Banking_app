@@ -13,11 +13,11 @@ const Transfer = () => {
     const user_id = localStorage.getItem("user_id");
     const token = localStorage.getItem("token");
 
-    const [carts, setCarts] = useState();
+    const [cards, setCards] = useState();
     const [response, setResponse] = useState()
     
     useEffect(()=>{
-        fetch('http://localhost:4000/carts', {
+        fetch('http://localhost:4000/cards', {
         method: 'POST',
         body: JSON.stringify({
             user_id: user_id 
@@ -29,18 +29,19 @@ const Transfer = () => {
     })
     .then((res)=> res.json())
     .then((data)=>{
-        setCarts(data)
+        setCards(data)
     });
     }, [user_id, token])
 
   function onFinish(values){
+    console.log(values)
     try{
       fetch('http://localhost:4000/transfer', {
       method: 'POST',
       body: JSON.stringify({
-        minus_cart_number: values.selectCart[0],
-        plus_cart_number: values.plusCartNumber,
-        sum : values.sum +i
+        sourceCard: values.selectCart[0],
+        destinationCard: values.destinationCard,
+        sum : values.sum
       }),
       headers: {
       'Content-type': 'application/json; charset=UTF-8',
@@ -74,20 +75,20 @@ const Transfer = () => {
           >
           <Cascader
             style={{ width: "290px" }}
-            placeholder="Select Cart"
-            options={carts? carts.map((item)=>{
+            placeholder="Select Card"
+            options={cards? cards.map((item)=>{
               return {
                 key: item.id,
-                label: ['Cart Number: ', item.cart_number,", ",'Sum: ',  item.sum, " AMD"],
-                value:item.cart_number
+                label: ['Card Number: ', item.cardNumber,", ",'Sum: ',  item.sum, " AMD"],
+                value: item.cardNumber
               }
             }): false}
           />
         </Form.Item>
         <Form.Item 
-          label="Cart Number"
-          name="plusCartNumber"
-          rules={[{ required: true, message: 'Please input cart number!' }]}
+          label="Card Number"
+          name="destinationCard"
+          rules={[{ required: true, message: 'Please input card number!' }]}
           >
           <Input />
         </Form.Item>

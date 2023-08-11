@@ -20,15 +20,14 @@ function RoutesApp(){
                 <Route path='/register' element={<Register />}/>
                 </>
                 :
-                false
-                }
                 <Route element={<Home/>}>
                     <Route path='/banking' element={<Banking/>}/>
-                    <Route path='/plus/:cart_number' element={<Plus/>}/>
+                    <Route path='/plus/:cardNumber' element={<Plus/>}/>
                     <Route path='/transfer' element={<Transfer/>}/>
                     <Route path='/history' element={<History/>}/>
-                    <Route path='/addcart' element={<AddCart/>}/>
+                    <Route path='/addcard' element={<AddCart/>}/>
                 </Route>
+                }
             </Route>
         </Routes>
     )

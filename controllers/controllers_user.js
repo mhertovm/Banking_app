@@ -27,7 +27,7 @@ function user(req, res){
     loggerAPI.info(`request "${req.url}" method "${req.method}"`);
     try{
         const {user_id} = req.body
-        const query = db.query(`SELECT * FROM db.users WHERE id = ${user_id}`,
+        const query = db.query(`SELECT * FROM db.users WHERE id = ?`, [`${user_id}`],
         function(err, data){
             if(err){
                 loggerError.error(`query error "${err.sql}"`)
@@ -44,7 +44,7 @@ function cards(req, res){
     loggerAPI.info(`request "${req.url}" method "${req.method}"`);
     try{
         const {user_id} = req.body
-        const query = db.query(`SELECT * FROM db.cards WHERE user_id = ${user_id}`,
+        const query = db.query(`SELECT * FROM db.cards WHERE user_id = ?`, [`${user_id}`],
         function(err, data){
             if(err){
                 loggerError.error(`query error "${err.sql}"`)
@@ -60,13 +60,13 @@ function cards(req, res){
 function plusSum(req, res){
     loggerAPI.info(`request "${req.url}" method "${req.method}"`);
     try{
-        const {cartNumber, sum} = req.body;
-        const query = db.query(`SELECT * FROM db.cards WHERE cardNumber = ${cartNumber}`,
+        const {cardNumber, sum} = req.body;
+        const query = db.query(`SELECT * FROM db.cards WHERE cardNumber = ?`, [`${cardNumber}`],
         function(err, data){
             if(err){
                 loggerError.error(`query error "${err.sql}"`)
             };
-            const query = db.query(`UPDATE db.cards SET sum = ${+data[0].sum + +sum} WHERE id = ${data[0].id}`,
+            const query = db.query(`UPDATE db.cards SET sum = ? WHERE id = ?`, [`${+data[0].sum + +sum}`, `${data[0].id}`],
             function(err){
                 if(err){
                     loggerError.error(`query error "${err.sql}"`)
@@ -85,31 +85,31 @@ function transfer(req, res){
     loggerAPI.info(`request "${req.url}" method "${req.method}"`);
     try{
         const {sourceCard, destinationCard, sum} = req.body;
-        const query = db.query(`SELECT * FROM db.cards WHERE cardNumber = '${sourceCard}'`,
-        function(err, sourceCard){
+        const query = db.query(`SELECT * FROM db.cards WHERE cardNumber = ?`, [`${sourceCard}`],
+        async function(err, sourceCard){ 
             if(err){
-                loggerError.error(`query error "${err.sql}"`)
+                return loggerError.error(`query error "${err.sql}"`)
             } else if (+sourceCard[0].sum >= +sum){
                 const queryTransaction = db.beginTransaction(function(err){
                     if(err){
-                        loggerError.error(`queryTransaction error "${err.sql}"`)
+                        return loggerError.error(`queryTransaction error "${err.sql}"`)
                     }
-                    const query = db.query(`UPDATE db.cards SET sum = ${+sourceCard[0].sum - +sum} WHERE id = ${sourceCard[0].id}`,
+                    const query = db.query(`UPDATE db.cards SET sum = ? WHERE id = ?`, [`${+sourceCard[0].sum - +sum}`, `${sourceCard[0].id}`],
                     function(err){
                         if(err){
                             loggerError.error(`query error "${err.sql}"`)
                         }
-                        const query = db.query(`SELECT * FROM db.cards WHERE cardNumber = '${destinationCard}'`,
+                        const query = db.query(`SELECT * FROM db.cards WHERE cardNumber = ?`, [`${destinationCard}`],
                         function(err, destinationCard){
                             if(err){
                                 loggerError.error(`query error "${err.sql}"`)
                             };
-                            const query = db.query(`UPDATE db.cards SET sum = ${+destinationCard[0].sum + +sum} WHERE id = ${destinationCard[0].id}`,
+                            const query = db.query(`UPDATE db.cards SET sum = ? WHERE id = ?`, [`${+destinationCard[0].sum + +sum}`, `${destinationCard[0].id}`],
                             function(err){
                                 if(err){
                                     loggerError.error(`query error "${err.sql}"`)
                                 }
-                                const query = db.query(`INSERT INTO db.transfers (sourceCard, destinationCard, sumTransfer, dateTransfer) VALUES ('${sourceCard[0].id}', '${destinationCard[0].id}', '${sum}', now())`,
+                                const query = db.query(`INSERT INTO db.transfers (sourceCard, destinationCard, sumTransfer, dateTransfer) VALUES (?, ?, ?, now())`, [`${sourceCard[0].id}`, `${destinationCard[0].id}`, `${sum}`],
                                 function(err){
                                     if(err){
                                         loggerError.error(`query error "${err.sql}"`)
@@ -145,7 +145,7 @@ function transfers(req, res){
     loggerAPI.info(`request "${req.url}" method "${req.method}"`);
     try{
         const {user_id} = req.body;
-        const query = db.query(`SELECT * FROM db.transfers WHERE sourceCard = ${user_id}`,
+        const query = db.query(`SELECT * FROM db.transfers WHERE sourceCard = ?`, [`${user_id}`],
         function(err, data){
             if(err){
                 loggerError.error(`query error "${err.sql}"`)
@@ -162,10 +162,10 @@ function addCard(req, res){
     loggerAPI.info(`request "${req.url}" method "${req.method}"`);
     try{
         const {user_id, cardName} = req.body;
-        const query = db.query(`INSERT INTO db.cards (user_id, cardName, cardNumber, sum, dateCreated) VALUES ('${user_id}', '${cardName}', '1234${user_id + Math.random()}', '0', now())`,
+        const query = db.query(`INSERT INTO db.cards (user_id, cardName, cardNumber, sum, dateCreated) VALUES (?, ?, ?, 0, now())`, [`${user_id}`, `${cardName}`, `1234${Math.random()}` ],
         function(err){
             if (err){
-                loggerError.error(`query error "${err.sql}"`)
+                return loggerError.error(`query error "${err.sql}"`)
             };
             res.json({response: "cart added"})
         })

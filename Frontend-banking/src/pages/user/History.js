@@ -35,28 +35,28 @@ function History () {
             ),
         },
         {
-            title: 'Cart Minus',
-            key: 'cartMinus',
+            title: 'sourceCard',
+            key: 'sourceCard',
             render: (_, record) => (
-                <p style={{color:"red"}}>{record.cartMinus_id}</p>
+                <p style={{color:"red"}}>{record.sourceCard}</p>
             ),
             
         },
         {
-            title: 'Cart Plus',
-            key: 'cartPlus',
+            title: 'destinationCard',
+            key: 'destinationCard',
             render: (_, record) => (
-                <p style={{color:"green"}}>{record.cartPlus_id}</p>
+                <p style={{color:"green"}}>{record.destinationCard}</p>
             ),
         },
         {
             title: 'Sum Transfer',
-            dataIndex: 'sum_transfer',
+            dataIndex: 'sumTransfer',
             key: 'sumTransfer',
         },
         {
             title: 'Time Transfer',
-            dataIndex: 'time_transfer',
+            dataIndex: 'dateTransfer',
             key: 'timeTransfer',
         },
     ];

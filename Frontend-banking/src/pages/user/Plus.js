@@ -8,13 +8,13 @@ import {
 function  Plus() {
     const [response, setResponse] = useState()
     const token = localStorage.getItem("token");
-    const {cart_number} = useParams();
+    const {cardNumber} = useParams();
     const onFinish = (values) =>{
         try{
             fetch('http://localhost:4000/plussum', {
             method: 'POST',
             body: JSON.stringify({
-                cart_number: cart_number,
+                cardNumber: cardNumber,
                 sum : values.sum
             }),
             headers: {

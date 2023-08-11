@@ -19,9 +19,9 @@ function Home(){
 
 
     const items1 = [{
-        key: `addcart`,
+        key: `addcard`,
         icon: <AppstoreAddOutlined />,
-        label: `Add Cart`,
+        label: `Add Card`,
     }];
 
     const items2 = [{
@@ -33,7 +33,7 @@ function Home(){
     const items4 = [{
         key: `banking`,
         icon: <CreditCardOutlined />,
-        label: `Carts`,
+        label: `Cards`,
     }]
     const items3 = [{
         key: `history`,

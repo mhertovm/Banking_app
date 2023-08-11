@@ -13,7 +13,7 @@ function Banking () {
     const [carts, setCarts]=useState();
     
     useEffect(()=>{
-        fetch('http://localhost:4000/carts', {
+        fetch('http://localhost:4000/cards', {
         method: 'POST',
         body: JSON.stringify({
             user_id: user_id 
@@ -31,15 +31,15 @@ function Banking () {
 
     const columns = [
         {
-            key: 'cartNumber',
+            key: 'card',
             render: (_, record) => (
                     <CreditCardOutlined />
             ),
         },
         {
-            title: 'Cart Number',
-            dataIndex: 'cart_number',
-            key: 'cartNumber',
+            title: 'Card Number',
+            dataIndex: 'cardNumber',
+            key: 'cardNumber',
             
         },
         {
@@ -53,7 +53,7 @@ function Banking () {
             key: 'action',
             render: (_, record) => (
                 <Space key={record.id} size="middle">
-                    <Button onClick={()=>navigate(`/plus/${record.cart_number}`)}>+</Button>
+                    <Button onClick={()=>navigate(`/plus/${record.cardNumber}`)}>+</Button>
                 </Space>
             ),
         },

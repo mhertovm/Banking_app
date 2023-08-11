@@ -31,20 +31,21 @@ async function register(req, res){
         const {name,surname,email,password} = req.body;
         const salt = await bcrypt.genSalt(10);
         const hashed_password = await bcrypt.hash(password, salt);
-        const query = db.query(`SELECT * FROM db.users WHERE email = '${email}'`,
+        const query = db.query(`SELECT * FROM db.users WHERE email = ?`, [email],
         function(err, data){
             if(err){
-                loggerError.error(`query error "${err.sql}"`)
+                return loggerError.error(`query error "${err.sql}"`)
             } else if(data.length === 0){
-                const query = db.query(`INSERT INTO db.users (name, surname, email, password) VALUES ('${name}', '${surname}', '${email}', '${hashed_password}')`,
-                function(err, data){
+                db.query(`INSERT INTO db.users (name, surname, email, password) VALUES (?, ?, ?, ?)`, [name, surname, email, hashed_password],
+                async function(err, data){
                     if(err){
-                        loggerError.error(`query error "${err.sql}"`)
+                        return loggerError.error(`query error "${err.sql}"`)
                     };
-                    const query = db.query(`INSERT INTO db.cards (user_id, cardNumber, cardNume, sum, dataCreated) VALUES ('${data.insertId}', '1234${data.insertId}', 'id bank default', '0', now())`,
+                    const user_id = await data.insertId
+                    const query = db.query(`INSERT INTO db.cards (user_id, cardNumber, cardName, sum, dateCreated) VALUES (?, ?, 'id bank default card', '0', now())`, [user_id, `1234${Math.random()}`],
                     function(err){
                         if (err){
-                            loggerError.error(`query error "${err.sql}"`)
+                            return loggerError.error(`query error "${err.sql}"`)
                         };
                         res.json({response: "registered"})
                     })
@@ -65,7 +66,7 @@ function login (req, res){
     try{
         loggerAPI.info(`request "${req.url}" method "${req.method}"`);
         const { email, password } = req.body;
-        const query = db.query(`SELECT * FROM db.users WHERE email = ?`, [email],
+        const query = db.query(`SELECT * FROM db.users WHERE email = ?`, [`${email}`],
         async function(err, data){
             if(err){
                 return res.sendStatus(404);

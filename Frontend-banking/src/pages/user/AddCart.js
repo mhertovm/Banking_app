@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   Button,
   Form,
+  Input
 } from 'antd';
 
 function AddCart(){
@@ -9,12 +10,13 @@ function AddCart(){
     const token = localStorage.getItem("token");
     const user_id = localStorage.getItem("user_id");
 
-    const onFinish = () =>{
+    const onFinish = (values) =>{
         try{
-            fetch('http://localhost:4000/addcart', {
+            fetch('http://localhost:4000/addcard', {
             method: 'POST',
             body: JSON.stringify({
                 user_id: user_id,
+                cardName: values.cardName
             }),
             headers: {
             'Content-type': 'application/json; charset=UTF-8',
@@ -40,6 +42,13 @@ function AddCart(){
     onFinish={onFinish}
     autoComplete="off"
     >
+      <Form.Item
+        label="Card Name"
+        name="cardName"
+        rules={[{ required: true, message: 'Please input your card name!' }]}
+        >
+        <Input />
+        </Form.Item>
       <Form.Item label="Add cart">
         <Button style={{width:"90px"}} htmlType="submit">Add Cart</Button>
       </Form.Item>
